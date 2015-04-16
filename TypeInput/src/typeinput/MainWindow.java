@@ -121,7 +121,6 @@ public class MainWindow extends javax.swing.JFrame {
             } catch (IOException | InterruptedException ex) {
                 JOptionPane.showMessageDialog(null, "Невозможно запустить проверяющее приложение","Ошибка",JOptionPane.WARNING_MESSAGE);
             }
-            
         }
         
     }//GEN-LAST:event_bOkActionPerformed
