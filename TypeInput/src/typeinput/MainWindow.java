@@ -114,7 +114,7 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Данные записаны. Нажмите ОК, чтобы продолжить.","Информация",JOptionPane.INFORMATION_MESSAGE);
         } else {
             try {
-                int code = Runtime.getRuntime().exec(config.getProgramToRun()).waitFor();
+                int code = Runtime.getRuntime().exec(config.getProgramToRun()+" "+config.getFilePath()).waitFor();
                 if (code==0)
                     JOptionPane.showMessageDialog(null, "Авторизация пройдена","Информация",JOptionPane.INFORMATION_MESSAGE);
                 else JOptionPane.showMessageDialog(null, "Авторизация не пройдена. Код выхода: "+code,"Информация",JOptionPane.ERROR_MESSAGE);
