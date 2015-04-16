@@ -1,0 +1,10 @@
+#Config file
+#File to save passwd data
+passwordFile=batch.bio
+#should program run checker?
+saveOnly=false
+#should program rewrite file?
+appendMode=false
+#command to run checker. passwordFile will be as parameter
+#0 exit code means OK
+runProgram=java -jar Checker.jar
