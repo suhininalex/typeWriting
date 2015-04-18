@@ -6,22 +6,26 @@ import java.util.List;
 public class Passwd {
     public final List<KeyStroke> keyStrokes = new LinkedList<KeyStroke>();
     private final StringBuilder passwd = new StringBuilder();
-    private final Chronometer chronometer = new Chronometer();
+    private final Chronometer chronometerDown = new Chronometer();
+    private Chronometer chronometerUp;
     
     private int upIterator = 0;
         
     public void keyDown(char key){
         KeyStroke keyStroke = new KeyStroke();
-        keyStroke.down = chronometer.getDeltaTime();
+        keyStroke.down = chronometerDown.getDeltaTime();
         keyStroke.key  = key;
         keyStrokes.add(keyStroke);
         passwd.append(key);
+        
+        chronometerUp = new Chronometer();
+        chronometerUp.getDeltaTime();
     }
     
     public void keyUp(){
         if (upIterator>=keyStrokes.size()) throw new IllegalStateException("You must press key at first");
         KeyStroke keyStroke = keyStrokes.get(upIterator++);
-        keyStroke.up = chronometer.getDeltaTime();
+        keyStroke.up = chronometerUp.getDeltaTime();
     }
     
     public String getPassword(){
