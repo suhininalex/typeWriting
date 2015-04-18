@@ -31,6 +31,7 @@ public class MainWindow extends javax.swing.JFrame {
         bOk = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         lWelcomeText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lWelcomeText.setText("Введите ваш пароль:");
