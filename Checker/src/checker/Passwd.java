@@ -39,19 +39,19 @@ public class Passwd {
         return builder.toString();
     }
     
-    public double distance(Passwd passwd, boolean normalize){
+    public double distance(Passwd passwd){
         if (!text.equals(passwd.text)) return Long.MAX_VALUE;
         double distance = 0d;
-        for (int i=0;i<shifts.size();i++){
-            double delta = shifts.get(i)-passwd.shifts.get(i);
+        for (int i=1;i<shifts.size();i++){
+            double delta = (shifts.get(i)-passwd.shifts.get(i))*100/shifts.get(i);
             distance+=delta*delta;
         }
         for (int i=0;i<retentions.size();i++){
-            double delta = retentions.get(i)-passwd.retentions.get(i);
-            distance+=4*delta*delta;
+            double delta = (retentions.get(i)-passwd.retentions.get(i))/retentions.get(i);
+            distance+=delta*delta;
         }
         distance = Math.sqrt(distance);
-        if (normalize) distance/=Math.sqrt(shifts.size()+retentions.size());
+        distance/=Math.sqrt(shifts.size()+retentions.size());
         return distance;
     }
 }
