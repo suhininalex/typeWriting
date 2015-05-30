@@ -4,15 +4,14 @@
  * and open the template in the editor.
  */
 package typeinput;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -87,9 +86,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     
-    Passwd passwd;
+    private Passwd passwd;
+    private final Config config = new Config("config.properties");
+    
     private void fPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fPasswordKeyPressed
         if ("".equals(fPassword.getText())) passwd = new Passwd();
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
@@ -115,18 +115,21 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Данные записаны. Нажмите ОК, чтобы продолжить.","Информация",JOptionPane.INFORMATION_MESSAGE);
         } else {
             try {
-                int code = Runtime.getRuntime().exec(config.getProgramToRun()+" "+config.getFilePath()).waitFor();
-                if (code==0)
+                String cmd = config.getProgramToRun()+" "+config.getFilePath();
+                int code = Runtime.getRuntime().exec(cmd).waitFor();
+                if (code==0) {
                     JOptionPane.showMessageDialog(null, "Авторизация пройдена","Информация",JOptionPane.INFORMATION_MESSAGE);
-                else JOptionPane.showMessageDialog(null, "Авторизация не пройдена. Код выхода: "+code,"Информация",JOptionPane.ERROR_MESSAGE);
+                } else if (code==1) {
+                    JOptionPane.showMessageDialog(null, "Программа для проверки не найдена", "Ошибка",JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Авторизация не пройдена. Код выхода: "+code,"Информация",JOptionPane.ERROR_MESSAGE);
+                }
             } catch (IOException | InterruptedException ex) {
                 JOptionPane.showMessageDialog(null, "Невозможно запустить проверяющее приложение","Ошибка",JOptionPane.WARNING_MESSAGE);
             }
         }
         
     }//GEN-LAST:event_bOkActionPerformed
-
-    private final Config config = new Config("config.properities");
     
     public static void main(String args[]) {        
         try {
@@ -136,14 +139,8 @@ public class MainWindow extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
